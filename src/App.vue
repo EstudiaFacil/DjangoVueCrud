@@ -6,9 +6,25 @@ export default {
     components: {
         Sidebar,
         DiaSemana
+    }, data() {
+        return {
+      diasSemana: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+      diaTarea: '',
+      nombreTarea: ''
+    };
+    },
+    methods: {
+        updateDiaSemana(dia) {
+    this.diaTarea = dia;
+  },
+    updateNombreTarea(nombre) {
+      this.nombreTarea = nombre;
+    },
+    actualizarNombreTarea(nuevaTarea) {
+      this.nombreTarea = nuevaTarea.texto;
     }
+  }
 }
-
 
 </script>
 
@@ -22,9 +38,6 @@ export default {
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Mis Tareas</a>
-                    </li>
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -35,19 +48,16 @@ export default {
     </nav>
 
     <main class="d-flex flex-nowrap">
-            <div class="col-4">
-                <Sidebar></Sidebar>
-            </div>
-            <div class="col-8 panelSemana d-flex flex-nowrap overflow-auto">
-                        <DiaSemana class ="Lunes"></DiaSemana>
-                        <DiaSemana></DiaSemana>
-                        <DiaSemana></DiaSemana>
-                        <DiaSemana></DiaSemana>
-                        <DiaSemana></DiaSemana>
-                        <DiaSemana></DiaSemana>
-                        <DiaSemana></DiaSemana>
-            </div>
-        
+        <div class="col-4">
+    <Sidebar :dia-semana="diaTarea" :nombre-tarea="nombreTarea" @update:dia-semana="updateDiaSemana" @update:nombre-tarea="updateNombreTarea"></Sidebar>
+  </div>
+    <div class="col-8 panelSemana d-flex flex-nowrap overflow-auto">
+      <ul class="dias d-flex flex-row">
+        <li v-for="dia in diasSemana" :key="dia">
+          <DiaSemana :nombre="dia" @tarea-creada="actualizarNombreTarea"></DiaSemana>
+        </li>
+      </ul>
+    </div>
     </main>
 </template>
 
@@ -55,15 +65,28 @@ export default {
 body {
     text-align: center;
 }
-.panelSemana{
+
+.panelSemana {
     overflow-x: scroll;
     width: 800px;
 }
+
 .panelSemana::-webkit-scrollbar {
-  /* Opcional: Para ocultar la barra de desplazamiento horizontal */
-  display: none;
+    /* Opcional: Para ocultar la barra de desplazamiento horizontal */
+    display: auto;
 }
-main{
+
+main {
     margin-top: 4%;
+}
+
+.dias {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dias li {
+    margin: 7px;
 }
 </style>
