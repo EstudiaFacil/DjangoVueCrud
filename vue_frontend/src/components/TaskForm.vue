@@ -22,7 +22,7 @@
       <div class="campo">
         <label for="dia" class="tarea-label">Día
           <select class="tarea-input" id="dia" name="dia" v-model="tarea.dia" required>
-            <option disabled selected value>Selecciona un día</option>
+            <option disabled selected value=0>Selecciona un día</option>
             <option value=1>Lunes</option>
             <option value=2>Martes</option>
             <option value=3>Miércoles</option>
@@ -43,7 +43,9 @@
         </div>
       </div>
 
-      <button class="tarea-btn">Guardar cambios</button>
+      <div class="campo">
+        <button class="tarea-btn">Guardar Cambios</button>
+      </div>
     </form>
   </div>
 </template>
@@ -62,14 +64,28 @@ export default defineComponent({
   },
   data() {
     return {
-      tarea: {} as Tarea,
+      tarea: {
+        titulo: '',
+        descripcion: '',
+        dia: 0,
+        completada: false,
+      } as Tarea,
     };
   },
   methods: {
     async guardarTarea() {
       const res = await createTarea(this.tarea);
       console.log(res);
-      this.$router.push({ name: 'tasks' });
+
+      this.tarea =  {
+        titulo: '',
+        descripcion: '',
+        dia: 0,
+        completada: false,
+      } as Tarea;
+
+      // Emitir el evento "formularioCompletado"
+      this.$emit('formularioCompletado');
     },
   },
 });
@@ -136,15 +152,18 @@ form {
 }
 
 .tarea-input {
-  font: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
   display: block;
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-bottom: 10px;
-  /* Espacio entre cada campo del formulario */
-  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+  height: 150px;
 }
 
 .tarea-label {
@@ -152,17 +171,14 @@ form {
 }
 
 .tarea-btn {
-  display: center;
-  width: 50%;
+  width: 80%;
+  display: block;
+  margin: 0 auto;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-bottom: 10px;
-  /* Espacio entre cada campo del formulario */
-  margin-left: 25%;
-  box-sizing: border-box;
-  background-color: rgb(255, 255, 255);
-  color: black;
+  background-color: rgb(68, 143, 179);
+  color: white;
   font-weight: bold;
 }
 

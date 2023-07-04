@@ -7,16 +7,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/App.vue"),
     },
     {
-        path: "/tasks",
-        name: "tasks",
-        component: () => import("@/components/TaskList.vue"),
-    },
-    {
-        path: "/tasks/new",
-        name: "tasks-new",
-        component: () => import("@/components/TaskForm.vue"),
-    },
-    {
         path: "/tasks/:id",
         name: "tasks-details",
         component: () => import("@/components/TaskDetail.vue"),

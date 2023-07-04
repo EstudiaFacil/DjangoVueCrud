@@ -6,7 +6,7 @@
     </div>
 
     <div class="container">
-      <div v-for="(tarea, index) in tareas" :key="index" class="task">
+      <div v-for="(tarea, index) in tareas.reverse()" :key="index" class="task">
         <h2 class="title">{{ tarea.titulo }}</h2>
         <p class="description">{{ tarea.descripcion }}</p>
         <div class="day">{{ getDayName(tarea.dia) }}</div>
@@ -86,6 +86,8 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  border: 1px solid rgb(187, 187, 187);
+  border-radius: 12px;
 }
 
 .task {

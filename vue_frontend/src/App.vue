@@ -1,9 +1,7 @@
 <template>
   <div id="window">
-    <Navbar />
-    <!-- <router-view /> -->
     <div id="home-container">
-      <TaskFormVue :encabezado="from_enc"/>
+      <TaskFormVue :encabezado="from_enc" @formularioCompletado="tareaCreada"/>
       <TaskList ref="taskList" />
     </div>
   </div>
@@ -11,14 +9,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Navbar from '@/components/Navbar.vue';
 import TaskList from '@/components/TaskList.vue';
 import TaskFormVue from '@/components/TaskForm.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    Navbar,
     TaskList,
     TaskFormVue,
   },
