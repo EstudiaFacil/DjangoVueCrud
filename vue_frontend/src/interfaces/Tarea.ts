@@ -1,7 +1,7 @@
 export interface Tarea {
     titulo: string,
     descripcion: string,
-    dia: Number,
+    dia: number,
     completada: boolean,
-    id: Number,
+    id: number,
 }

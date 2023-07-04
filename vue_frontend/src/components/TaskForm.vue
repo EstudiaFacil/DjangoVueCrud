@@ -26,8 +26,7 @@
 
     <div class="form-check">
       <label for="terminada" class="tarea-label">
-        <input type="checkbox" class="tarea-input tarea-check" id="terminada" name="terminada" v-model="tarea.completada"
-          required>
+        <input type="checkbox" class="tarea-input tarea-check" id="terminada" name="terminada" v-model="tarea.completada">
         Tarea terminada
       </label>
     </div>
