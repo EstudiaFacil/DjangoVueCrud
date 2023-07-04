@@ -51,6 +51,7 @@ export default defineComponent({
     async guardarTarea() {
       const res = await createTarea(this.tarea);
       console.log(res);
+      this.$router.push({name: 'tasks'});
     },
   },
 });

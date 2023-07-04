@@ -6,6 +6,7 @@
       <p>{{ tarea.descripcion }}</p>
       <p>{{ tarea.dia }}</p>
       <p>{{ tarea.completada }}</p>
+      <button @click="$router.push(`/tasks/${tarea.id}`)">Editar</button>
     </div>
   </div>
 </template>
