@@ -1,15 +1,21 @@
 <template>
-  <h1>Tareas</h1>
-  <div class="container">
-    <div v-for="(tarea, index) in tareas" :key="index" class="task">
-      <h2 class="title">{{ tarea.titulo }}</h2>
-      <p class="description">{{ tarea.descripcion }}</p>
-      <div class="day">{{ getDayName(tarea.dia) }}</div>
-      <div class="task-footer">
-        <div class="completed-pill" :class="{ 'completed': tarea.completada, 'not-completed': !tarea.completada }">
-          {{ tarea.completada ? 'Completado' : 'No completado' }}
+  <div class="tareas">
+    <div class="encabezado">
+      <h1> Lista de Tareas</h1>
+      <hr>
+    </div>
+
+    <div class="container">
+      <div v-for="(tarea, index) in tareas" :key="index" class="task">
+        <h2 class="title">{{ tarea.titulo }}</h2>
+        <p class="description">{{ tarea.descripcion }}</p>
+        <div class="day">{{ getDayName(tarea.dia) }}</div>
+        <div class="task-footer">
+          <div class="completed-pill" :class="{ 'completed': tarea.completada, 'not-completed': !tarea.completada }">
+            {{ tarea.completada ? 'Completado' : 'No completado' }}
+          </div>
+          <button class="edit-button" @click="$router.push(`/tasks/${tarea.id}`)">Editar</button>
         </div>
-        <button class="edit-button" @click="$router.push(`/tasks/${tarea.id}`)">Editar</button>
       </div>
     </div>
   </div>
@@ -35,10 +41,13 @@ export default defineComponent({
       const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
       return days[dayNumber];
     },
+    saludo() {
+      console.log('Hola');
+    },
   },
-  mounted() {
-    this.cargarTareas();
-  },
+  // mounted() {
+  //   this.cargarTareas();
+  // },
 });
 </script>
 
@@ -53,9 +62,25 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
+.encabezado {
+  text-align: center;
+  margin: 10px auto;
+}
+
+.encabezado h1 {
+  font-size: 24px;
+}
+
+.tareas {
+  margin: 0 auto;
+  width: 90%;
+  height: 90vh;
+  display: block;
+}
+
 .container {
   width: 100%;
-  height: 80vh;
+  height: 100%;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
@@ -67,8 +92,9 @@ body {
   width: 100%;
   margin: 10px 0;
   padding: 10px;
+  border: 1px solid #2e2e2e;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -85,6 +111,7 @@ body {
 .title {
   text-align: left;
   margin: 0;
+  font-size: 20px;
 }
 
 .description {
@@ -105,6 +132,7 @@ body {
   border-radius: 20px;
   color: #fff;
   font-weight: bold;
+  font-size: 12px;
 }
 
 .completed {
