@@ -26,7 +26,7 @@
 
     <div class="form-check">
       <label for="terminada" class="tarea-label">
-        <input type="checkbox" class="tarea-input tarea-check" id="terminada" name="terminada" v-model="tarea.terminada"
+        <input type="checkbox" class="tarea-input tarea-check" id="terminada" name="terminada" v-model="tarea.completada"
           required>
         Tarea terminada
       </label>
@@ -39,6 +39,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { Tarea } from '@/interfaces/Tarea';
+import { createTarea } from '@/services/TareaService';
 
 export default defineComponent({
   data() {
@@ -47,8 +48,9 @@ export default defineComponent({
     };
   },
   methods: {
-    guardarTarea() {
-      console.log(this.tarea);
+    async guardarTarea() {
+      const res = await createTarea(this.tarea);
+      console.log(res);
     },
   },
 });
