@@ -32,7 +32,7 @@
       </label>
     </div>
 
-    <button class="tarea-btn">Guardar cambios</button>
+    <button class= "tarea-btn">Guardar cambios</button>
   </form>
 </template>
 
@@ -54,3 +54,14 @@ export default defineComponent({
 });
 
 </script>
+
+<style scoped>
+ form {
+  background-color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+  padding: 0;
+ }
+</style>
