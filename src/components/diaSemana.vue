@@ -21,6 +21,10 @@ export default {
 
                 this.$emit('tarea-creada', nuevaTarea);
             }
+        },
+        seleccionTarea(nombreTarea) {
+            const tareaSeleccionada = { id: Date.now(), texto: nombreTarea, diaTarea: this.nombre };
+            this.$emit('seleccion-tarea',tareaSeleccionada)
         }
     },
     mounted(){
@@ -29,13 +33,13 @@ export default {
 };
 </script>
 
-<template>
+<template>  
     <div class="panelTareas">
         <h3 class="dia">{{ nombre }}</h3>
         <br>
         <div class="nuevaTarea d-inline-flex align-items-center">
             <input class="form-control" type="text" placeholder="Nueva tarea" v-model="nuevaTareaTexto">
-            <button class="añadirTarea btn btn-primary d-inline-flex align-items-center" @click="añadirTarea">
+            <button class="añadirTarea btn btn-dark d-inline-flex align-items-center" @click="añadirTarea">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
                     viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -47,13 +51,13 @@ export default {
             <ul class="listaTareas">
                 <div v-for="tarea in tareas" :key="tarea.id">
                     <div class="tarea d-inline-flex">
-                        <p>{{ tarea.texto }}</p>
-                        <button class="btn btn-secondary d-inline-flex align-items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        <button class="btn btn-light d-inline-flex align-items-center" @click="seleccionTarea(tarea.texto)">
+                            <p>{{ tarea.texto }}</p>
+                            <!--svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
                                 <path
                                     d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                            </svg>
+                            </svg-->
                         </button>
                     </div>
                 </div>
@@ -68,7 +72,7 @@ body {
 }
 
 .panelTareas {
-    background-color: rosybrown;
+    background-color: rgba(112.520718, 44.062154, 249.437846, .15);
     margin: 0;
     padding: 5% 3%;
 }
