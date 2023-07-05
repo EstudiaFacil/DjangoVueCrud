@@ -1,5 +1,5 @@
 <template>
-  <div class="todo">
+  <div class="todo" :class="{ 'nuevo': !editar, 'editar': editar }">
     <div class="encabezado">
       <h1>{{ encabezado }}</h1>
     </div>
@@ -44,7 +44,7 @@
       </div>
 
       <div v-if="!editar" class="campo">
-        <button class="tarea-btn" @click.prevent="crearTarea">Guardar Cambios</button>
+        <button class="tarea-btn" @click.prevent="crearTarea">Crear Tarea</button>
       </div>
 
       <div v-if="editar" class="campo">
@@ -89,14 +89,14 @@ export default defineComponent({
       console.log(res);
 
       this.limpiarTarea();
-      this.$emit('formularioCompletado');
+      this.$emit('tareaCreada');
     },
     async guardarCambios() {
       const res = await updateTarea(this.tarea.id.toString(), this.tarea);
         console.log(res);
 
       this.limpiarTarea();
-      this.$emit('formularioCompletado');
+      this.$emit('tareaEditada');
     },
     async cargarTarea(id: number) {
       const res = await getTarea(id.toString());
@@ -137,14 +137,20 @@ body {
   margin: 10px 10px;
   width: 100%;
   height: 95vh;
-  background-color: rgb(195, 205, 204);
   border-radius: 12px;
+}
+
+.nuevo {
+  background-color: #C8DCFA;
+}
+
+.editar {
+  background-color: #FAE4C8;
 }
 
 .encabezado {
   text-align: center;
   margin: 10px auto;
-  /* Espacio entre el encabezado y el formulario */
 }
 
 .encabezado h1 {
@@ -204,7 +210,7 @@ textarea {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: rgb(68, 143, 179);
+  background-color: rgb(128, 174, 196);
   color: white;
   font-weight: bold;
 }
@@ -215,6 +221,6 @@ textarea {
 }
 
 .tarea-btn:active {
-  background-color: #cacbf5;
+  background-color: #D4D5F1;
 }
 </style>

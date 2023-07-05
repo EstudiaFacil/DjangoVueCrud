@@ -1,8 +1,9 @@
 <template>
   <div id="window">
     <div id="home-container">
-      <TaskFormVue ref="formTarea" :encabezado="form_enc" :editar="form_edi" @formularioCompletado="tareaCreada" @salirEditar="cancelarEditar"/>
-      <TaskList ref="taskList" @editar="editarTarea" @eliminar="eliminarTarea"/>
+      <TaskFormVue ref="formTarea" :encabezado="form_enc" :editar="form_edi" @tareaCreada="tareaCreada"
+        @tareaEditada="tareaEditada" @salirEditar="cancelarEditar" />
+      <TaskList ref="taskList" @editar="editarTarea" @eliminar="eliminarTarea" />
 
       <!-- Recuadro modal -->
       <EliminarTarea ref="elimTarea" rea="tareaSeleccionada" @tareaEliminada="refrescarLista"></EliminarTarea>
@@ -37,6 +38,10 @@ export default defineComponent({
       (this.$refs.taskList as typeof TaskList)?.cargarTareas();
     },
     tareaCreada() {
+      this.refrescarLista();
+    },
+    tareaEditada() {
+      this.cancelarEditar();
       this.refrescarLista();
     },
     editarTarea(id: number) {
@@ -79,5 +84,4 @@ body {
   display: grid;
   grid-template-columns: 2fr 8fr;
 }
-
 </style>
