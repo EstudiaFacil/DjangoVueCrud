@@ -14,10 +14,14 @@
           <div class="completed-pill" :class="{ 'completed': tarea.completada, 'not-completed': !tarea.completada }">
             {{ tarea.completada ? 'Completado' : 'No completado' }}
           </div>
-          <button class="edit-button" @click="$router.push(`/tasks/${tarea.id}`)">Editar</button>
+          <form class="tarea-form" :id="'form-' + index" action="">
+            <button class="button edit" @click.prevent="editar(tarea.id)">Editar</button>
+            <button class="button delete" @click.prevent="eliminar(tarea.id)">Eliminar</button>
+          </form>
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -30,6 +34,7 @@ export default defineComponent({
   data() {
     return {
       tareas: [] as Tarea[],
+      id: 0,
     };
   },
   methods: {
@@ -38,11 +43,17 @@ export default defineComponent({
       this.tareas = res.data;
     },
     getDayName(dayNumber: number) {
-      const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const days = ['','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo',];
       return days[dayNumber];
     },
     saludo() {
       console.log('Hola');
+    },
+    editar(id: number) {
+      this.$emit('editar', id);
+    },
+    eliminar(id: number) {
+      this.$emit('eliminar', id);
     },
   },
   // mounted() {
@@ -145,16 +156,34 @@ body {
   background-color: rgb(187, 61, 30);
 }
 
-.edit-button {
-  background-color: rgb(34, 72, 138);
+.tarea-form {
+  display: inline-block;
+}
+
+.button {
   color: #fff;
   border-radius: 20px;
   border: none;
   padding: 5px 10px;
   font-weight: bold;
+  margin: 0 5px;
 }
 
-.edit-button:hover {
+.edit {
+  background-color: rgb(34, 72, 138);
+}
+
+.delete {
+  background-color: rgb(187, 61, 30);
+}
+
+.edit:hover {
   background-color: darkblue;
+  cursor: pointer;
+}
+
+.delete:hover {
+  background-color: rgb(139, 0, 0);
+  cursor: pointer;
 }
 </style>
