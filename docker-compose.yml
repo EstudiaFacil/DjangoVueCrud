@@ -1,11 +1,19 @@
-version: '3.11.4'
-
+version: '3'
 services:
-  django:
-    image: django-docker:0.0.1
+  backend:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
-      
+      - 8000:8000
+    links:
+      - frontend
+
+  frontend:
+    image: node
+    volumes:
+      - ./vue_frontend:/app/vue_frontend
+    working_dir: /app/vue_frontend
+    command: sh -c "npm install && npm run serve"
+    ports:
+      - 8080:8080
