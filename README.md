@@ -28,7 +28,7 @@ Una vez finalizado esto se abrira en tu VSCode la carpeta que contiene el proyec
 ## Ejecutar proyecto
 Dentro de VSCode abre una terminal, para abrir una terminal ingresa a *Terminal* en el menú superior luego seleciona *Nueva Terminal*.
 
-Una vez ya se habra la termina ejecuta el comando.
+Una vez ya se habra la terminal, ejecuta el siguiente comando.
 ```bash
 docker-compose up
 ```
