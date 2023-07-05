@@ -1,16 +1,18 @@
-# syntax=docker/dockerfile:1
-
+# Imagen base de Python
 FROM python:3.11.4-slim-bullseye
 
-ENV PYTHONUNBUFFERED=1
+# Directorio de trabajo en el contenedor
+WORKDIR /app
 
-WORKDIR /usr/src/backend
+# Copiar los archivos de requerimientos al contenedor
+COPY requirements.txt .
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+# Instalar los requerimientos de Python
+RUN pip3 install --no-cache-dir -r requirements.txt
 
+# Copiar el código fuente de la aplicación al contenedor
 COPY . .
 
-EXPOSE 8000
+EXPOSE 8001
 
-CMD ["python3", "manage.py", "runserver"]
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8001"]
