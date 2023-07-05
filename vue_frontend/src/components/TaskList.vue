@@ -6,7 +6,7 @@
     </div>
 
     <div class="container">
-      <div v-for="(tarea, index) in tareas.reverse()" :key="index" class="task">
+      <div v-for="(tarea, index) in tareas" :key="index" class="task">
         <h2 class="title">{{ tarea.titulo }}</h2>
         <p class="description">{{ tarea.descripcion }}</p>
         <div class="day">{{ getDayName(tarea.dia) }}</div>
@@ -41,6 +41,7 @@ export default defineComponent({
     async cargarTareas() {
       const res = await getTareas();
       this.tareas = res.data;
+      this.tareas.sort((a: Tarea, b: Tarea) => b.id - a.id);
     },
     getDayName(dayNumber: number) {
       const days = ['','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo',];

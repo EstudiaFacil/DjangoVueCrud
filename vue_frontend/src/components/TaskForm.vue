@@ -97,15 +97,24 @@ export default defineComponent({
       this.$emit('tareaCreada');
     },
     async guardarCambios() {
-      const res = await updateTarea(this.tarea.id.toString(), this.tarea);
-      console.log(res);
+      try {
+        const res = await updateTarea(this.tarea.id.toString(), this.tarea);
+        console.log(res);
+      } catch (error: any) {
+        console.log('Error al editar la tarea:', error.message);
+      }
 
       this.limpiarTarea();
       this.$emit('tareaEditada');
     },
     async cargarTarea(id: number) {
-      const res = await getTarea(id.toString());
-      this.tarea = res.data;
+      try {
+        const res = await getTarea(id.toString());
+        this.tarea = res.data;
+      } catch (error: any) {
+        console.log('Error al cargar la tarea:', error.message);
+        this.salirEditar();
+      }
     },
     salirEditar() {
       this.limpiarTarea();

@@ -47,10 +47,13 @@ export default defineComponent({
       this.mostrar = false;
     },
     async eliminarTarea() {
-      const res = await deleteTarea(this.tarea.id.toString());
-      console.log(res);
+      try {
+        const res = await deleteTarea(this.tarea.id.toString());
+        console.log(res);
+      } catch (error: any) {
+        console.log('Error al eliminar la tarea:', error.message);
+      }
       this.cerrarModal();
-
       this.$emit('tareaEliminada');
     },
   },
@@ -64,6 +67,7 @@ export default defineComponent({
   padding: 0;
   font-family: 'Open Sans', sans-serif;
 }
+
 .modal {
   position: fixed;
   top: 0;

@@ -32,6 +32,12 @@ export default defineComponent({
   },
   mounted() {
     this.refrescarLista();
+
+    // Realizar solicitudes periódicas cada 5 segundos
+    setInterval(() => {
+      this.refrescarLista();
+      console.log('Solicitud de actualización de tareas');
+    }, 5000);
   },
   methods: {
     refrescarLista() {
@@ -56,6 +62,7 @@ export default defineComponent({
     cancelarEditar() {
       this.form_enc = 'Nueva Tarea';
       this.form_edi = false;
+      this.refrescarLista();
     },
   },
 });
