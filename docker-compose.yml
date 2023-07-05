@@ -10,7 +10,7 @@ services:
       - frontend
 
   frontend:
-    image: node
+    image: node:20-buster-slim
     volumes:
       - ./vue_frontend:/app/vue_frontend
     working_dir: /app/vue_frontend
