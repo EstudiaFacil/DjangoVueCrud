@@ -1,8 +1,11 @@
 <template>
   <div id="window">
     <div id="home-container">
-      <TaskFormVue :encabezado="from_enc" @formularioCompletado="tareaCreada"/>
+      <TaskFormVue :encabezado="form_enc" @formularioCompletado="tareaCreada"/>
       <TaskList ref="taskList" @editar="editarTarea" @eliminar="eliminarTarea"/>
+
+      <!-- Recuadro modal -->
+      <EliminarTarea ref="elimTarea" rea="tareaSeleccionada" @tareaEliminada="refrescarLista"></EliminarTarea>
     </div>
   </div>
 </template>
@@ -11,16 +14,18 @@
 import { defineComponent } from 'vue';
 import TaskList from '@/components/TaskList.vue';
 import TaskFormVue from '@/components/TaskForm.vue';
+import EliminarTarea from '@/components/EliminarTarea.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
     TaskList,
     TaskFormVue,
+    EliminarTarea,
   },
   data() {
     return {
-      from_enc: 'Nueva Tarea',
+      form_enc: 'Nueva Tarea',
     };
   },
   mounted() {
@@ -38,8 +43,7 @@ export default defineComponent({
       // Agrega aquí el código para editar la tarea correspondiente
     },
     eliminarTarea(id: number) {
-      console.log('Eliminar tarea con ID:', id);
-      // Agrega aquí el código para eliminar la tarea correspondiente
+      (this.$refs.elimTarea as typeof EliminarTarea)?.mostrarModal(id);
     },
   },
 });
