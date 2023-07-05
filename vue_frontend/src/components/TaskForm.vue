@@ -4,7 +4,7 @@
       <h1>{{ encabezado }}</h1>
     </div>
 
-    <form>
+    <form @submit.prevent="submitForm">
       <div class="campo">
         <label for="titulo" class="tarea-label">Título
           <input type="text" class="tarea-input" id="titulo" name="titulo" placeholder="Título de tarea"
@@ -22,7 +22,6 @@
       <div class="campo">
         <label for="dia" class="tarea-label">Día
           <select class="tarea-input" id="dia" name="dia" v-model="tarea.dia" required>
-            <option disabled selected value=0>Selecciona un día</option>
             <option value=1>Lunes</option>
             <option value=2>Martes</option>
             <option value=3>Miércoles</option>
@@ -44,15 +43,19 @@
       </div>
 
       <div v-if="!editar" class="campo">
-        <button class="tarea-btn" @click.prevent="crearTarea">Crear Tarea</button>
+        <button class="tarea-btn">Crear Tarea</button>
       </div>
 
       <div v-if="editar" class="campo">
-        <button class="tarea-btn" @click.prevent="guardarCambios">Guardar Cambios</button>
-        <button class="tarea-btn" @click.prevent="salirEditar">Cancelar</button>
+        <button class="tarea-btn">Guardar Cambios</button>
       </div>
 
     </form>
+
+    <div v-if="editar" class="campo">
+      <button class="tarea-btn" @click.prevent="salirEditar">Cancelar</button>
+    </div>
+
   </div>
 </template>
 
@@ -75,15 +78,17 @@ export default defineComponent({
   },
   data() {
     return {
-      tarea: {
-        titulo: '',
-        descripcion: '',
-        dia: 0,
-        completada: false,
-      } as Tarea,
+      tarea: {} as Tarea,
     };
   },
   methods: {
+    submitForm() {
+      if (this.editar) {
+        this.guardarCambios();
+      } else {
+        this.crearTarea();
+      }
+    },
     async crearTarea() {
       const res = await createTarea(this.tarea);
       console.log(res);
@@ -93,7 +98,7 @@ export default defineComponent({
     },
     async guardarCambios() {
       const res = await updateTarea(this.tarea.id.toString(), this.tarea);
-        console.log(res);
+      console.log(res);
 
       this.limpiarTarea();
       this.$emit('tareaEditada');
