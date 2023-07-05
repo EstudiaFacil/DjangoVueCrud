@@ -5,7 +5,9 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 8001:8000
+      - 8000:8000
+    links:
+      - frontend
 
   frontend:
     image: node

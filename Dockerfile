@@ -4,15 +4,12 @@ FROM python:3.11.4-slim-bullseye
 # Directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copiar los archivos de requerimientos al contenedor
-COPY requirements.txt .
-
-# Instalar los requerimientos de Python
-RUN pip3 install --no-cache-dir -r requirements.txt
-
 # Copiar el código fuente de la aplicación al contenedor
 COPY . .
 
-EXPOSE 8001
+# Instalar los requerimientos de Python
+RUN pip install -r requirements.txt
 
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8001"]
+EXPOSE 8000
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
