@@ -4,7 +4,7 @@
       <h1>{{ encabezado }}</h1>
     </div>
 
-    <form @submit.prevent="guardarTarea">
+    <form>
       <div class="campo">
         <label for="titulo" class="tarea-label">Título
           <input type="text" class="tarea-input" id="titulo" name="titulo" placeholder="Título de tarea"
@@ -43,9 +43,15 @@
         </div>
       </div>
 
-      <div class="campo">
-        <button class="tarea-btn">Guardar Cambios</button>
+      <div v-if="!editar" class="campo">
+        <button class="tarea-btn" @click.prevent="crearTarea">Guardar Cambios</button>
       </div>
+
+      <div v-if="editar" class="campo">
+        <button class="tarea-btn" @click.prevent="guardarCambios">Guardar Cambios</button>
+        <button class="tarea-btn" @click.prevent="salirEditar">Cancelar</button>
+      </div>
+
     </form>
   </div>
 </template>
@@ -53,12 +59,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { Tarea } from '@/interfaces/Tarea';
+import { getTarea, updateTarea } from '@/services/TareaService';
 import { createTarea } from '@/services/TareaService';
 
 export default defineComponent({
   props: {
     encabezado: {
       type: String,
+      required: true,
+    },
+    editar: {
+      type: Boolean,
       required: true,
     },
   },
@@ -73,19 +84,35 @@ export default defineComponent({
     };
   },
   methods: {
-    async guardarTarea() {
+    async crearTarea() {
       const res = await createTarea(this.tarea);
       console.log(res);
 
-      this.tarea =  {
+      this.limpiarTarea();
+      this.$emit('formularioCompletado');
+    },
+    async guardarCambios() {
+      const res = await updateTarea(this.tarea.id.toString(), this.tarea);
+        console.log(res);
+
+      this.limpiarTarea();
+      this.$emit('formularioCompletado');
+    },
+    async cargarTarea(id: number) {
+      const res = await getTarea(id.toString());
+      this.tarea = res.data;
+    },
+    salirEditar() {
+      this.limpiarTarea();
+      this.$emit('salirEditar');
+    },
+    limpiarTarea() {
+      this.tarea = {
         titulo: '',
         descripcion: '',
         dia: 0,
         completada: false,
       } as Tarea;
-
-      // Emitir el evento "formularioCompletado"
-      this.$emit('formularioCompletado');
     },
   },
 });

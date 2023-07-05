@@ -1,7 +1,7 @@
 <template>
   <div id="window">
     <div id="home-container">
-      <TaskFormVue :encabezado="form_enc" @formularioCompletado="tareaCreada"/>
+      <TaskFormVue ref="formTarea" :encabezado="form_enc" :editar="form_edi" @formularioCompletado="tareaCreada" @salirEditar="cancelarEditar"/>
       <TaskList ref="taskList" @editar="editarTarea" @eliminar="eliminarTarea"/>
 
       <!-- Recuadro modal -->
@@ -26,6 +26,7 @@ export default defineComponent({
   data() {
     return {
       form_enc: 'Nueva Tarea',
+      form_edi: false,
     };
   },
   mounted() {
@@ -39,11 +40,17 @@ export default defineComponent({
       this.refrescarLista();
     },
     editarTarea(id: number) {
-      console.log('Editar tarea con ID:', id);
-      // Agrega aquí el código para editar la tarea correspondiente
+      this.form_enc = 'Editar Tarea';
+      this.form_edi = true;
+
+      (this.$refs.formTarea as typeof TaskFormVue)?.cargarTarea(id);
     },
     eliminarTarea(id: number) {
       (this.$refs.elimTarea as typeof EliminarTarea)?.mostrarModal(id);
+    },
+    cancelarEditar() {
+      this.form_enc = 'Nueva Tarea';
+      this.form_edi = false;
     },
   },
 });
